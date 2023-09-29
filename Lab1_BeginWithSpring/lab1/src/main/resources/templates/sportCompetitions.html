@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Competition Schedule and Results</title>
+    <!-- Add your CSS stylesheets for styling here -->
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Upcoming Sports Competitions</h1>
+    </header>
+
+    <main>
+        <!-- Display a table for upcoming competitions -->
+        <section id="upcoming-competitions">
+            <h2>Upcoming Competitions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Use Thymeleaf to iterate through upcoming competitions data -->
+                    <tr th:each="competition : ${upcomingCompetitions}">
+                        <td th:text="${competition.date}">Date</td>
+                        <td th:text="${competition.event}">Event</td>
+                        <td th:text="${competition.location}">Location</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Display a table for past competition results -->
+        <section id="competition-results">
+            <h2>Past Competition Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Winner</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Use Thymeleaf to iterate through past results data -->
+                    <tr th:each="result : ${Results}">
+                        <td th:text="${result.event}">Event</td>
+                        <td th:text="${result.winner}">Winner</td>
+                        <td th:text="${result.score}">Score</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Sports Competition Website</p>
+    </footer>
+</body>
+</html>
