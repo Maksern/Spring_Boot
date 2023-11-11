@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SportCompetitionsApplication",
+            "request": "launch",
+            "mainClass": "com.example.sport_competitions.demo.SportCompetitionsApplication",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-DemoApplication<demo>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
