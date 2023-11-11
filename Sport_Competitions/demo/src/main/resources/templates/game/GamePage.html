@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Details</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/game/GamePage.css}" />
+</head>
+<body>    
+    <header>
+        <div class="container">
+            <h1>Sports Competitions</h1>
+            <p>Your source for exciting sports events</p>
+
+            <form th:action="@{/logout}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+    </header>
+
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="/game/page/1">Home</a></li>
+                <li><a href="/game/form">GameForm</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <section id="game-details">
+        <div class="header">
+            <h2>Game Details</h2>
+        </div>
+
+        <div class="game-details">
+            <p><strong>Sport Type:</strong> <span th:text="${game.sportType}"></span></p>
+            <p><strong>Photo:</strong></p> <img th:src="@{'/images/' + ${game.sportType} + '.jpg'}"><br>
+            <p><strong>Time:</strong> <span th:text="${game.time}"></span></p>
+            <p><strong>Place:</strong> <span th:text="${game.place}"></span></p>
+            <p><strong>Home Team:</strong> <span th:text="${game.homeTeam.name}"></span></p>
+            <p><strong>Guest Team:</strong> <span th:text="${game.guestTeam.name}"></span></p>
+        </div>
+
+        <div class="button-container">
+            <a th:if="${#authorization.expression('isAuthenticated()')}" class="buy-tickets-btn" href="#">Buy Tickets</a>
+        </div>
+
+        <div class="admin-buttons" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            
+            <form th:method="delete">
+                <button class="delete-btn" type="submit">Delete</button>
+            </form>
+        
+            <button class="edit-btn">Edit</button>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sports Competitions</p>
+        </div>
+    </footer>
+</body>
+</html>

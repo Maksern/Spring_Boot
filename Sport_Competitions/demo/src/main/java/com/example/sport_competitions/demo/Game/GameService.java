@@ -1,5 +1,8 @@
 package com.example.sport_competitions.demo.Game;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,10 @@ public class GameService {
 
     public Game getById(long id){
         return gameRepository.getByID(id);
+    }
+
+    public Iterable<Game> getPage(int pageNumber, int pageSize){
+        return getElementsFromIndex(gameRepository.getAll(), pageNumber*pageSize, pageSize);
     }
 
     public Game update(GameCreateDTO dto, long id){
@@ -72,5 +79,12 @@ public class GameService {
             }
         }
         return true;
+    }
+
+    public Iterable<Game> getElementsFromIndex(Iterable<Game> iterable, int startIndex, int count) {
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .skip(startIndex)
+                .limit(count)
+                .collect(Collectors.toList());
     }
 }

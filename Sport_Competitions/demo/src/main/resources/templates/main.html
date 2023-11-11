@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Competitions</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Sports Competitions</h1>
+            <p>Your source for exciting sports events</p>
+
+            <form th:action="@{/logout}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+    </header>
+
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="/game/page/1">Home</a></li>
+                <li><a href="/game/form">GameForm</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <section id="featured-events">
+        <h2 style="text-align: center;">Featured Events</h2>
+
+        <div class="grid-container">
+            <div class="event" th:each="game : ${games}">
+                <div th:if="${game != null}">
+                    <a th:href="@{'/game/'+${game.id}}"><img th:src="@{'/images/' + ${game.sportType} + '.jpg'}" alt="Sport Image"></a>
+                    <h3 th:text="${game.sportType}"></h3>  
+                    <span th:text="${game.time} + ' - ' + ${game.place}"></span>    
+                    <h3 th:text="${game.homeTeam.name} + ' - ' + ${game.guestTeam.name}"></h3>
+                </div>
+
+                <div th:unless ="${game != null}">
+                    <h3 style="text-align: center;">This elements doesn`t exist. Try another request</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-navigation">
+            <th:block th:each="i : ${#numbers.sequence(0, gamesSize/pageSize, 1)}">
+                <a th:href="'/game/page/'+${i+1}"><button class="page-button"><p th:text="${i+1}"></p></button></a>
+            </th:block>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sports Competitions</p>
+        </div>
+    </footer>
+</body>
+</html>

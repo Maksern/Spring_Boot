@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Competitions</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/game/CreateForm.css}" />
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Sports Competitions</h1>
+            <p>Your source for exciting sports events</p>
+        </div>
+    </header>
+
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="/game/page/1">Home</a></li>
+                <li><a href="/game/form">GameForm</a></li>
+            </ul>
+        </div>        
+    </nav>
+
+    <div class="gameForm-container">
+        <form th:action="@{/game/create}" th:method="post">
+            <label for="SportType">Sport Type</label>
+
+            <select name="sportType">
+                <option value="Football">Football</option>
+                <option value="Basketball">Basketball</option>
+                <option value="Swimming">Swimming</option>
+                <option value="Hockey">Hockey</option>
+                <option value="Volleyball">Volleyball</option>
+            </select><br>
+
+    
+            <label for="Time">Time</label>
+            <input type="datetime-local" name="time"><br>
+    
+            <label for="Town">Town</label>
+            <input type="text" name="town"><br>
+    
+            <label for="Place">Place</label>
+            <input type="text" name="place"><br>
+
+
+            <label for="homeTeam">Home Team</label>
+            <select name="homeTeamID">
+                <div th:each="team : ${teams}">
+                    <option th:value="${team.id}" th:text="${team.Name}"></option>
+                </div>
+            </select><br>
+
+
+            <label for="guestTeam">Guest Team</label>
+            <select name="guestTeamID">
+                <div th:each="team : ${teams}">
+                    <option  th:value="${team.id}" th:text="${team.Name}"></option>
+                </div>
+            </select><br>
+
+            <label for="homeTeamScore">Home Team Score</label>
+            <input type="number" name="homeTeamScore"><br>
+
+            <label for="guestTeamScore">Guest Team Score</label>
+            <input type="number" name="guestTeamScore"><br>
+
+    
+            <input type="submit" value="Create" >
+        </form>
+    </div>
+
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sports Competitions</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout.permitAll())
-
+    
             .cors().and().csrf().disable();
 
         return http.build();
@@ -39,6 +39,12 @@ public class WebSecurityConfig {
 				.roles("USER")
 				.build();
 
-		return new InMemoryUserDetailsManager(user);
+        UserDetails admin = User.withDefaultPasswordEncoder()
+				.username("admin")
+				.password("password")
+				.roles("ADMIN")
+				.build();
+
+		return new InMemoryUserDetailsManager(user, admin);
 	}
 }

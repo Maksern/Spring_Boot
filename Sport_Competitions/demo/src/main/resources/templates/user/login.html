@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Competitions</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/user/login.css}" />
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Sports Competitions</h1>
+            <p>Your source for exciting sports events</p>
+        </div>
+    </header>
+
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="/game/page/1">Home</a></li>
+                <li><a href="/game/form">GameForm</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div th:if="${param.error}">
+        <h5>Invalid username and/or password.</h5>
+    </div>
+
+    <div th:if="${param.logout}">
+        <h5>You have been logged out.</h5>
+    </div>
+
+    <div class="form-container">
+        <form id="login-form" th:action="@{/login}" th:method="post">
+            <h2>Login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="login-username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="login-password" name="password" required>
+            <br>
+            <button type="submit">Submit</button>
+            <button onclick="showSignup()" class="choose_signup_button">Sign Up</button>
+        </form>
+
+        <form id="signup-form" th:action="@{/user/create}" th:method="post">
+            <h2>Sign Up</h2>
+            <label for="new-username">Username:</label>
+            <input type="text" id="new-username" name="new_username" required>
+            <br>
+            <label for="new-password">Password:</label>
+            <input type="password" id="new-password" name="new_password" required>
+            <br>
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm_password" required>
+            <br>
+            <button type="submit">Submit</button>
+            <button onclick="showLogin()" class="choose_login_button">Login</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sports Competitions</p>
+        </div>
+    </footer>
+</body>
+
+</html>

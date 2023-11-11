@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/error.js}"></script>
+</head>
+
+<body>
+    <div class="box">
+
+        <div class="box__ghost">
+          <div class="symbol"></div>
+          <div class="symbol"></div>
+          <div class="symbol"></div>
+          <div class="symbol"></div>
+          <div class="symbol"></div>
+          <div class="symbol"></div>
+          
+          <div class="box__ghost-container">
+
+            <div class="left-eye">
+              <div class="eye-pupil"></div>
+            </div>
+    
+            <div class="right-eye">
+              <div class="eye-pupil"></div>
+            </div>
+
+            <div class="box__ghost-bottom">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+          </div>
+          <div class="box__ghost-shadow"></div>
+        </div>
+
+        <div class="box__description">
+          <div class="box__description-container">
+            <div class="box__description-title">Whoops!</div>
+            <div class="box__description-text" th:switch="${message}">
+              <p th:case="'Forbidden'">You don`t have access to this page. Try another acount</p>
+              <p th:case="*" th:text="${message}"></p>
+            </div>
+          </div>
+          
+          <a href="/game/page/1" class="box__button">Go home</a>
+          
+        </div>
+        
+    </div>
+</body>
+
+</html>

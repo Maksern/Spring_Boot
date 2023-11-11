@@ -1,0 +1,91 @@
+.form-container {
+    display: block;
+    background-color: #c8e0e0;
+
+    width: 300px;
+    margin: 10px auto;
+
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form{
+    margin: 7px;
+    column-gap: 20px;
+    grid-template-columns: auto auto;
+}
+
+#login-form button[type="submit"] {
+    grid-row: 7;
+    grid-column: 1;
+}
+
+.choose_signup_button{
+    grid-row: 7;
+    grid-column: 2;   
+}
+
+#signup-form button[type="submit"] {
+    grid-row: 10;
+    grid-column: 1;
+}
+
+.choose_login_button{
+    grid-row: 10;
+    grid-column: 2;
+}
+
+
+
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    margin: 10px 0;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+h2 {
+    grid-column: 1 /span 2;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h5 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+    color:#d8ffff;
+}
+
+label {
+    grid-column: 1 /span 2;
+    font-weight: bold;
+}
+
+input {
+    grid-column: 1 /span 2;
+    width: 90%;
+    padding: 10px;
+    margin: 0px auto 20px;
+    border: 1px solid #ccc;
+}
+
+
+#login-form {
+    display: grid;
+}
+
+#signup-form {
+    display: none;
+}
+
+
