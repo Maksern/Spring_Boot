@@ -19,7 +19,7 @@ public class PostgresTeamRepository implements TeamRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String FIND_ALL = "SELECT * FROM teams ORDER BY teamId";
+    private final String FIND_ALL = "SELECT * FROM teams";
     private final String FIND_BY_ID = "SELECT * FROM teams WHERE teamId=?";
     private final String UPDATE = "UPDATE teams SET teamName=?, sportType=?, playerNumber=? WHERE teamId=?";
     private final String INSERT = "INSERT INTO teams(teamName, sportType, playerNumber) VALUES(?, ?, ?);";
@@ -39,7 +39,7 @@ public class PostgresTeamRepository implements TeamRepository {
         try {
             return jdbcTemplate.queryForObject(FIND_BY_ID, PostgresTeamRepository::mapRow, id); 
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException();
         }
     }
 
@@ -62,7 +62,6 @@ public class PostgresTeamRepository implements TeamRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(INSERT, Types.VARCHAR, Types.VARCHAR, Types.INTEGER);
         pscf.setGeneratedKeysColumnNames("teamid");
-
 
         PreparedStatementCreator preparedStatementCreator = pscf.newPreparedStatementCreator(
                 new Object[] {team.getTeamName(), team.getSportType(), team.getPlayerNumber()});

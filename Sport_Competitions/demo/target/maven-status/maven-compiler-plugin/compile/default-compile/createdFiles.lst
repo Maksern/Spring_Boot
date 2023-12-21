@@ -1,0 +1,13 @@
+com\example\sport_competitions\demo\MainController.class
+com\example\sport_competitions\demo\Team\TeamRepository.class
+com\example\sport_competitions\demo\SportCompetitionsApplication.class
+com\example\sport_competitions\demo\Team\InMemoryTeamRepository.class
+com\example\sport_competitions\demo\Game\GameService.class
+com\example\sport_competitions\demo\Team\Team.class
+com\example\sport_competitions\demo\WebSecurityConfig.class
+com\example\sport_competitions\demo\Game\GameCreateDTO.class
+com\example\sport_competitions\demo\Team\TeamController.class
+com\example\sport_competitions\demo\Game\GameRepository.class
+com\example\sport_competitions\demo\Game\Game.class
+com\example\sport_competitions\demo\Game\GameController.class
+com\example\sport_competitions\demo\Game\InMemoryGameRepository.class

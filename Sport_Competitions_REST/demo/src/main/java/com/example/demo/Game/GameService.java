@@ -42,23 +42,14 @@ public class GameService {
         return gameOnPage;
     }
 
-    public Iterable<Game> getBySport(String sportType){
+    public Iterable<Game> searchGame(String sportType, String beginDate){
         Iterable<Game> games = gameRepository.getAll();
+        games  = getBySport(sportType, games);
+        games = getByTime(beginDate, games);
 
-        if (sportType.equals("all")) {
-            return games;
-        }
-        
-        return StreamSupport.stream(games.spliterator(), false)
-                .filter(game -> game.getSportType().equals(sportType))
-                .collect(Collectors.toList());
-    }
-
-    public Iterable<Game> getByTime(String sportType){
-        Iterable<Game> games = gameRepository.getAll();
-        
         return games;
     }
+
 
     public Game updateGame(Long id, GameDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
@@ -69,6 +60,34 @@ public class GameService {
     public void deleteGameById(Long id) {
         gameRepository.delete(id);
     }
+
+
+
+    public Iterable<Game> getBySport(String sportType, Iterable<Game> games){
+        if (sportType.equals("all")) {
+            return games;
+        }
+
+        return StreamSupport.stream(games.spliterator(), false)
+                .filter(game -> game.getSportType().equals(sportType))
+                .collect(Collectors.toList());
+    }
+
+
+
+    public Iterable<Game> getByTime(String beginDate, Iterable<Game> games){       
+        if (beginDate.equals("all")) {
+            return games;
+        }
+
+        Timestamp timestamp = Timestamp.valueOf(beginDate.concat(" 00:00:00"));
+        System.out.println(timestamp);
+
+        return StreamSupport.stream(games.spliterator(), false)
+                .filter(game -> game.getGameTime().after(timestamp))
+                .collect(Collectors.toList());
+    }
+
 
         
     public Iterable<Game> getElementsOnPage(Iterable<Game> iterable, int page, int count) {

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -37,13 +39,14 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping
+    @Transactional
     @Operation(summary = "Create Game", description = "Create Game with id generate on server side",
                 parameters = {@Parameter(name = "gameDto", description = "New game parameters")})
     @ApiResponses({@ApiResponse(responseCode = "201", description = "The game was created"),
                   @ApiResponse(responseCode = "400", description = "Not Valid GameDTO", content = @Content)})
-    ResponseEntity<Game> createGame(@RequestBody GameDTO gameDto) {
+    ResponseEntity<Game> createGame(@RequestBody @Valid GameDTO gameDto) {
         Game game = gameService.createGame(gameDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(game.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getId()).toUri();
         return ResponseEntity.created(uri).body(game);
     }
 
@@ -82,8 +85,8 @@ public class GameController {
     @Operation(summary = "Get page with specific atributes", description = "Return a page with default number of games")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Find needed games and return them"),
                   @ApiResponse(responseCode = "404", description = "Database not have element for this search", content = @Content)})
-    public ResponseEntity<Iterable<Game>> searchGames(@RequestParam(defaultValue = "all") String sportType){
-        Iterable<Game> games = gameService.getBySport(sportType);
+    public ResponseEntity<Iterable<Game>> searchGames(@RequestParam(defaultValue = "all") String sportType, @RequestParam(defaultValue = "all") String beginDate){
+        Iterable<Game> games = gameService.searchGame(sportType, beginDate);
         Iterator<Game> gameIterator = games.iterator(); 
 
         if(!gameIterator.hasNext()){

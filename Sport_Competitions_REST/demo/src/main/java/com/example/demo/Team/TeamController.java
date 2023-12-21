@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 
@@ -39,7 +40,7 @@ public class TeamController {
                 parameters = {@Parameter(name = "teamDto", description = "New team parameters")})
     @ApiResponses({@ApiResponse(responseCode = "201", description = "The team was created"),
                   @ApiResponse(responseCode = "400", description = "The teamDto must be without id", content = @Content)})
-    public ResponseEntity<Team> createTeam(@RequestBody Team teamDto){
+    public ResponseEntity<Team> createTeam(@RequestBody @Valid Team teamDto){
         if(teamDto.getId() != null){
             ResponseEntity.badRequest().build();
         }
