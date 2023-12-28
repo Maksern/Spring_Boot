@@ -27,23 +27,23 @@ public class GameService {
     }
 
     public Iterable<Game> getAll() {
-        return gameRepository.getAll();
+        return gameRepository.findAll();
     }
 
     public Game getByID(Long id) {
-        return gameRepository.getByID(id);
+        return gameRepository.findById(id).get();
     }
 
     public Iterable<Game> getPage(int page, int size){
         page = Math.abs(page - 1);
-        Iterable<Game> games = gameRepository.getAll();
+        Iterable<Game> games = gameRepository.findAll();
         Iterable<Game> gameOnPage = getElementsOnPage(games, page, size);
         
         return gameOnPage;
     }
 
     public Iterable<Game> searchGame(String sportType, String beginDate){
-        Iterable<Game> games = gameRepository.getAll();
+        Iterable<Game> games = gameRepository.findAll();
         games  = getBySport(sportType, games);
         games = getByTime(beginDate, games);
 
@@ -53,12 +53,12 @@ public class GameService {
 
     public Game updateGame(Long id, GameDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
-        game.setId(id);
+        game.setGameid(id);
         return gameRepository.save(game);
     }
 
     public void deleteGameById(Long id) {
-        gameRepository.delete(id);
+        gameRepository.deleteById(id);
     }
 
 

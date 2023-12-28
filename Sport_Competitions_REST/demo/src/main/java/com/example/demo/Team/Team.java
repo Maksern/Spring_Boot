@@ -1,5 +1,8 @@
 package com.example.demo.Team;
 
+import java.util.Collection;
+
+import com.example.demo.Game.Models.Game;
 import com.example.demo.Validation.SportListConstraint;
 
 import jakarta.persistence.Column;
@@ -7,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -38,4 +42,14 @@ public class Team {
     @Positive
     @Column(name = "playernumber")
     private int playerNumber;
+
+    // @OneToMany(mappedBy = "homeTeam")
+    // @ToString.Exclude
+    // @EqualsAndHashCode.Exclude
+    // Collection<Game> homeGames;
+
+    // @OneToMany(mappedBy = "guestTeam")
+    // @ToString.Exclude
+    // @EqualsAndHashCode.Exclude
+    // Collection<Game> guestGames;
 }

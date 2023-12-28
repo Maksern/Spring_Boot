@@ -46,7 +46,7 @@ public class GameController {
                   @ApiResponse(responseCode = "400", description = "Not Valid GameDTO", content = @Content)})
     ResponseEntity<Game> createGame(@RequestBody @Valid GameDTO gameDto) {
         Game game = gameService.createGame(gameDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getGameid()).toUri();
         return ResponseEntity.created(uri).body(game);
     }
 
