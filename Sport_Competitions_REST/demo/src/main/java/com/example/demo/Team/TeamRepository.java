@@ -1,11 +1,6 @@
 package com.example.demo.Team;
 
+import org.springframework.data.repository.CrudRepository;
 
-public interface TeamRepository {
-    Team getByID(Long id);
-    Iterable<Team> getAll();
-
-    Team save(Team team);
-
-    void delete(Long id);
+public interface TeamRepository extends CrudRepository<Team, Long>{
 }

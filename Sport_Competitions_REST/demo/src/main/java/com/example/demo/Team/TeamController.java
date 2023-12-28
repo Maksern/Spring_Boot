@@ -41,11 +41,11 @@ public class TeamController {
     @ApiResponses({@ApiResponse(responseCode = "201", description = "The team was created"),
                   @ApiResponse(responseCode = "400", description = "The teamDto must be without id", content = @Content)})
     public ResponseEntity<Team> createTeam(@RequestBody @Valid Team teamDto){
-        if(teamDto.getId() != null){
-            ResponseEntity.badRequest().build();
+        if(teamDto.getTeamid() != null){
+            return ResponseEntity.badRequest().build();
         }
         Team team = teamRepository.save(teamDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(team.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(team.getTeamid()).toUri();
         return ResponseEntity.created(uri).body(team);
     }
 
@@ -54,7 +54,7 @@ public class TeamController {
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Get all teams from database"),
                   @ApiResponse(responseCode = "404", description = "Team table is empty", content = @Content)})
     public ResponseEntity<Iterable<Team>> getAll(){
-        Iterable<Team> teams = teamRepository.getAll();
+        Iterable<Team> teams = teamRepository.findAll();
         Iterator<Team> teamIterator = teams.iterator(); 
 
         if(!teamIterator.hasNext()){
@@ -70,9 +70,9 @@ public class TeamController {
                 parameters = {@Parameter(name = "id", description = "Team Identifier", example = "4")})
     @ApiResponses({@ApiResponse(responseCode = "200", description = "The team was find"),
                   @ApiResponse(responseCode = "404", description = "The team with specified Id not found", content = @Content)})
-    public ResponseEntity<Team> getByID(@PathVariable long id){
+    public ResponseEntity<Team> getByID(@PathVariable Long id){
         try {
-            Team team = teamRepository.getByID(id);
+            Team team = teamRepository.findById(id).get();
             return ResponseEntity.ok(team);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -85,7 +85,7 @@ public class TeamController {
     @ApiResponses({@ApiResponse(responseCode = "200", description = "The team was find and updated"),
                   @ApiResponse(responseCode = "400", description = "The team have bad id", content = @Content)})
     public ResponseEntity<Team> updateByID(@PathVariable Long id, @RequestBody Team teamDto){
-        if(teamDto.getId() != null && !teamDto.getId().equals(id)){
+        if(teamDto.getTeamid() != null && !teamDto.getTeamid().equals(id)){
             return ResponseEntity.badRequest().build();
         }
         Team team = new Team(id, teamDto.getTeamName(), teamDto.getSportType(), teamDto.getPlayerNumber());
@@ -100,6 +100,6 @@ public class TeamController {
     @ApiResponses(@ApiResponse(responseCode = "204", description = "The team was find and deleted"))
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByID(@PathVariable Long id){
-        teamRepository.delete(id);
+        teamRepository.deleteById(id);
     }
 }

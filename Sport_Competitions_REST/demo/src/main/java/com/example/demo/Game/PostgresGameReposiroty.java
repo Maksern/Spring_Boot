@@ -43,7 +43,7 @@ public class PostgresGameReposiroty implements GameRepository {
     }
 
     public int update(Game game){
-        return jdbcTemplate.update(SQL.getUPDATE(), game.getSportType(), game.getGamePlace(), game.getGameTime(), game.getHomeTeam().getId(), game.getGuestTeam().getId(), game.getHomeTeamScore(), game.getGuestTeamScore(), game.getId());
+        return jdbcTemplate.update(SQL.getUPDATE(), game.getSportType(), game.getGamePlace(), game.getGameTime(), game.getHomeTeam().getTeamid(), game.getGuestTeam().getTeamid(), game.getHomeTeamScore(), game.getGuestTeamScore(), game.getId());
     }
 
     public Game create(Game game){
@@ -53,7 +53,7 @@ public class PostgresGameReposiroty implements GameRepository {
         pscf.setGeneratedKeysColumnNames("gameid");
 
         PreparedStatementCreator pCreator = pscf.newPreparedStatementCreator(new Object[]{
-            game.getSportType(), game.getGamePlace(), game.getGameTime(), game.getHomeTeam().getId(), game.getGuestTeam().getId(), game.getHomeTeamScore(), game.getGuestTeamScore()
+            game.getSportType(), game.getGamePlace(), game.getGameTime(), game.getHomeTeam().getTeamid(), game.getGuestTeam().getTeamid(), game.getHomeTeamScore(), game.getGuestTeamScore()
         });
 
         jdbcTemplate.update(pCreator, keyHolder);

@@ -11,7 +11,6 @@ public class SportListValidator implements ConstraintValidator<SportListConstrai
     public boolean isValid(String sportType, ConstraintValidatorContext context) {
         String sportList[] = {"Volleyball", "Hockey", "Basketball", "Football"};
 
-
         return sportType != null && Arrays.asList(sportList).contains(sportType);
     }
     

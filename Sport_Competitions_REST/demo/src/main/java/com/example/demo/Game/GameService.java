@@ -103,10 +103,10 @@ public class GameService {
         game.setGamePlace(gameDTO.getGamePlace());
         game.setGameTime(Timestamp.valueOf(gameDTO.getGameTime()));
 
-        Team homeTeam = teamRepository.getByID(gameDTO.getHomeTeamId());
+        Team homeTeam = teamRepository.findById(gameDTO.getHomeTeamId()).get();
         game.setHomeTeam(homeTeam);
 
-        Team guestTeam = teamRepository.getByID(gameDTO.getGuestTeamId());
+        Team guestTeam = teamRepository.findById(gameDTO.getGuestTeamId()).get();
         game.setGuestTeam(guestTeam);
 
         game.setHomeTeamScore(gameDTO.getHomeTeamScore());

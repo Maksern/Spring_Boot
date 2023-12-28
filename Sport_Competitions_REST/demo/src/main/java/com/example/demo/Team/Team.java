@@ -2,6 +2,12 @@ package com.example.demo.Team;
 
 import com.example.demo.Validation.SportListConstraint;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -9,19 +15,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "TEAMS")
 public class Team {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long teamid;
 
     @NotBlank
+    @Column(name = "teamname")
     @Size(min = 5, max = 25)
     private String teamName;
 
     @SportListConstraint
+    @Column(name = "sporttype")
     private String sportType;
 
     @Positive
+    @Column(name = "playernumber")
     private int playerNumber;
 }

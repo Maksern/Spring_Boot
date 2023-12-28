@@ -22,14 +22,14 @@ public class GameMapper implements RowMapper<Game>{
         game.setGameTime(rs.getTimestamp("gameTime"));
 
         Team homeTeam = new Team();
-        homeTeam.setId(rs.getLong("homeTeamId"));
+        homeTeam.setTeamid(rs.getLong("homeTeamId"));
         homeTeam.setTeamName(rs.getString("homeTeamName"));
         homeTeam.setSportType(rs.getString("homeTeamSportType"));
         homeTeam.setPlayerNumber(rs.getInt("homeTeamPlayerNumber"));
         game.setHomeTeam(homeTeam);
 
         Team guestTeam = new Team();
-        guestTeam.setId(rs.getLong("guestTeamId"));
+        guestTeam.setTeamid(rs.getLong("guestTeamId"));
         guestTeam.setTeamName(rs.getString("guestTeamName"));
         guestTeam.setSportType(rs.getString("guestTeamSportType"));
         guestTeam.setPlayerNumber(rs.getInt("guestTeamPlayerNumber"));

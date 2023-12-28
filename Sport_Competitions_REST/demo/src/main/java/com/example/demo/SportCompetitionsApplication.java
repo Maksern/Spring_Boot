@@ -27,10 +27,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @EnableTransactionManagement
 @SpringBootApplication
 public class SportCompetitionsApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SportCompetitionsApplication.class, args);
 	}
-
 }
 
