@@ -46,21 +46,14 @@ public class Team {
     @Column(name = "playernumber")
     private int playerNumber;
 
-    public Team(Long teamid, @NotBlank @Size(min = 5, max = 25) String teamName, String sportType,
-            @Positive int playerNumber) {
-        this.teamid = teamid;
-        this.teamName = teamName;
-        this.sportType = sportType;
-        this.playerNumber = playerNumber;
-    }
 
-    @OneToMany(mappedBy = "homeTeam")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    Collection<Game> homeGames;
+    // @OneToMany(mappedBy = "homeTeam")
+    // @ToString.Exclude
+    // @EqualsAndHashCode.Exclude
+    // Collection<Game> homeGames;
 
-    @OneToMany(mappedBy = "guestTeam")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    Collection<Game> guestGames;
+    // @OneToMany(mappedBy = "guestTeam")
+    // @ToString.Exclude
+    // @EqualsAndHashCode.Exclude
+    // Collection<Game> guestGames;
 }
