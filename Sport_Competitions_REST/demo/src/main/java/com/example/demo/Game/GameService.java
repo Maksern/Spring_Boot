@@ -7,9 +7,9 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Game.Models.Game;
-import com.example.demo.Game.Models.GameDTO;
-import com.example.demo.Team.Team;
+import com.example.demo.Game.Models.GameCreateDTO;
 import com.example.demo.Team.TeamRepository;
+import com.example.demo.Team.Models.Team;
 
 import lombok.AllArgsConstructor;
 
@@ -20,7 +20,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final TeamRepository teamRepository;
 
-    public Game createGame(GameDTO gameDTO) {
+    public Game createGame(GameCreateDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
         game = gameRepository.save(game);
         return game;
@@ -51,7 +51,7 @@ public class GameService {
     }
 
 
-    public Game updateGame(Long id, GameDTO gameDTO) {
+    public Game updateGame(Long id, GameCreateDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
         game.setGameid(id);
         return gameRepository.save(game);
@@ -97,7 +97,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public Game convertDtoToEntity(GameDTO gameDTO) {
+    public Game convertDtoToEntity(GameCreateDTO gameDTO) {
         Game game = new Game();
         game.setSportType(gameDTO.getSportType());
         game.setGamePlace(gameDTO.getGamePlace());

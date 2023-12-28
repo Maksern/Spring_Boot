@@ -2,8 +2,7 @@ package com.example.demo.Game.Models;
 
 import java.sql.Timestamp;
 
-
-import com.example.demo.Team.Team;
+import com.example.demo.Team.Models.Team;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

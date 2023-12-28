@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameDTO {
+public class GameCreateDTO {
     @SportListConstraint
     private String sportType;
     

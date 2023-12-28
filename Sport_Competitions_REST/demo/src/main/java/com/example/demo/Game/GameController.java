@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.Game.Models.Game;
-import com.example.demo.Game.Models.GameDTO;
+import com.example.demo.Game.Models.GameCreateDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,7 +44,7 @@ public class GameController {
                 parameters = {@Parameter(name = "gameDto", description = "New game parameters")})
     @ApiResponses({@ApiResponse(responseCode = "201", description = "The game was created"),
                   @ApiResponse(responseCode = "400", description = "Not Valid GameDTO", content = @Content)})
-    ResponseEntity<Game> createGame(@RequestBody @Valid GameDTO gameDto) {
+    ResponseEntity<Game> createGame(@RequestBody @Valid GameCreateDTO gameDto) {
         Game game = gameService.createGame(gameDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(game.getGameid()).toUri();
         return ResponseEntity.created(uri).body(game);
@@ -115,7 +115,7 @@ public class GameController {
                 parameters = {@Parameter(name = "gameDto", description = "Game DTO")})
     @ApiResponses({@ApiResponse(responseCode = "200", description = "The game was find and updated"),
                   @ApiResponse(responseCode = "400", description = "The game have bad id", content = @Content)})
-    ResponseEntity<Game> updateGame(@RequestBody GameDTO gameDto, @PathVariable Long id) {
+    ResponseEntity<Game> updateGame(@RequestBody GameCreateDTO gameDto, @PathVariable Long id) {
         try {
             Game game = gameService.updateGame(id, gameDto);
             return ResponseEntity.ok(game);
