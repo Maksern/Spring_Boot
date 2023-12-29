@@ -1,39 +1,36 @@
-// package com.example.demo.Game.Models;
+package com.example.demo.Game.Models;
 
 
 
+import java.sql.Timestamp;
 
-// import java.sql.Timestamp;
+import com.example.demo.Team.Models.TeamDTO;
 
-// import lombok.AllArgsConstructor;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-// @Data
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class GameJpaDTO {
-//     private Long id;
-//     private String sportType;
-    
-//     private Timestamp gameTime;
-//     private String gamePlace;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GameJpaDTO {
+    private Long gameid;
 
-//     private String result;
+    private String sportType;
+    private Timestamp gameTime;
+    private String gamePlace;
 
-//     public static GameJpaDTO fromEntity(Game game){
-//         return new GameJpaDTO(game.getGameid(), game.getSportType(), 
-//                             game.getGameTime(), game.getGamePlace(), 
-//                             getResult(game.getGuestTeamScore(), game.getHomeTeamScore()));
-//     }
+    private TeamDTO homeTeam;
+    private TeamDTO guestTeam;
 
-//     private static String getResult(int guestTeamScore, int homeTeamScore){
-//         if(guestTeamScore > homeTeamScore){
-//             return "Lose";
-//         } else if(homeTeamScore > guestTeamScore){
-//             return "Win";
-//         } else{
-//             return "Draw";
-//         }
-//     }
-// }
+    private int homeTeamScore;
+    private int guestTeamScore;
+
+    public static GameJpaDTO fromEntity(Game game){
+        return new GameJpaDTO(game.getGameid(), game.getSportType(), 
+                            game.getGameTime(), game.getGamePlace(), 
+                            TeamDTO.fromEntity(game.getHomeTeam()), TeamDTO.fromEntity(game.getGuestTeam()),
+                            game.getHomeTeamScore(), game.getGuestTeamScore());
+    }
+
+}

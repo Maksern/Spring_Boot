@@ -1,13 +1,21 @@
 package com.example.demo.Game;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.hibernate.query.SortDirection;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Game.Models.Game;
 import com.example.demo.Game.Models.GameCreateDTO;
+import com.example.demo.Game.Models.GameJpaDTO;
 import com.example.demo.Team.TeamRepository;
 import com.example.demo.Team.Models.Team;
 
@@ -20,41 +28,54 @@ public class GameService {
     private final GameRepository gameRepository;
     private final TeamRepository teamRepository;
 
-    public Game createGame(GameCreateDTO gameDTO) {
+    public GameJpaDTO createGame(GameCreateDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
         game = gameRepository.save(game);
-        return game;
+        return GameJpaDTO.fromEntity(game);
     }
 
-    public Iterable<Game> getAll() {
-        return gameRepository.findAll();
-    }
-
-    public Game getByID(Long id) {
-        return gameRepository.findById(id).get();
-    }
-
-    public Iterable<Game> getPage(int page, int size){
-        page = Math.abs(page - 1);
-        Iterable<Game> games = gameRepository.findAll();
-        Iterable<Game> gameOnPage = getElementsOnPage(games, page, size);
-        
-        return gameOnPage;
-    }
-
-    public Iterable<Game> searchGame(String sportType, String beginDate){
-        Iterable<Game> games = gameRepository.findAll();
-        games  = getBySport(sportType, games);
-        games = getByTime(beginDate, games);
-
+    @Transactional
+    public Iterable<GameJpaDTO> createGames(GameCreateDTO[] gameDTOs) {
+        List<GameJpaDTO> games = new ArrayList<GameJpaDTO>();
+        for (GameCreateDTO gameCreateDTO : gameDTOs) {
+                Game game = convertDtoToEntity(gameCreateDTO);
+                game = gameRepository.save(game);
+                games.add(GameJpaDTO.fromEntity(game));
+        }
         return games;
     }
 
+    public Iterable<GameJpaDTO> getAll() {
+        Iterable<Game> games = gameRepository.findAll(Sort.by("gameid"));
+        Iterable<GameJpaDTO> gamesDtos = StreamSupport.stream(games.spliterator(), false)
+                                            .map(GameJpaDTO::fromEntity)
+                                            .collect(Collectors.toList());
 
-    public Game updateGame(Long id, GameCreateDTO gameDTO) {
+        return gamesDtos;
+    }
+
+    public GameJpaDTO getByID(Long id) {
+        return gameRepository.findById(id).map(GameJpaDTO::fromEntity).get();
+    }
+
+    public Iterable<GameJpaDTO> getPage(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Iterable<Game> games = gameRepository.findAll(pageable);
+
+        Iterable<GameJpaDTO> gamesDtos = StreamSupport.stream(games.spliterator(), false)
+                                    .map(GameJpaDTO::fromEntity)
+                                    .collect(Collectors.toList());
+        
+        return gamesDtos;
+    }
+
+
+    public GameJpaDTO updateGame(Long id, GameCreateDTO gameDTO) {
         Game game = convertDtoToEntity(gameDTO);
         game.setGameid(id);
-        return gameRepository.save(game);
+        game = gameRepository.save(game);
+
+        return GameJpaDTO.fromEntity(game);
     }
 
     public void deleteGameById(Long id) {
@@ -63,41 +84,29 @@ public class GameService {
 
 
 
-    public Iterable<Game> getBySport(String sportType, Iterable<Game> games){
-        if (sportType.equals("all")) {
-            return games;
-        }
+    public Iterable<GameJpaDTO> getBySport(String sportType){
+        Iterable<Game> games = gameRepository.findBySportType(sportType);
 
-        return StreamSupport.stream(games.spliterator(), false)
-                .filter(game -> game.getSportType().equals(sportType))
-                .collect(Collectors.toList());
+        Iterable<GameJpaDTO> gamesDtos = StreamSupport.stream(games.spliterator(), false)
+                                    .map(GameJpaDTO::fromEntity)
+                                    .collect(Collectors.toList());
+        return gamesDtos;
     }
 
 
 
-    public Iterable<Game> getByTime(String beginDate, Iterable<Game> games){       
-        if (beginDate.equals("all")) {
-            return games;
-        }
-
+    public Iterable<GameJpaDTO> getByTime(String beginDate){       
         Timestamp timestamp = Timestamp.valueOf(beginDate.concat(" 00:00:00"));
-        System.out.println(timestamp);
+        Iterable<Game> games = gameRepository.findByGameTimeAfter(timestamp);
 
-        return StreamSupport.stream(games.spliterator(), false)
-                .filter(game -> game.getGameTime().after(timestamp))
-                .collect(Collectors.toList());
+        Iterable<GameJpaDTO> gamesDtos = StreamSupport.stream(games.spliterator(), false)
+                                    .map(GameJpaDTO::fromEntity)
+                                    .collect(Collectors.toList());
+        return gamesDtos;
     }
 
 
-        
-    public Iterable<Game> getElementsOnPage(Iterable<Game> iterable, int page, int count) {
-        return StreamSupport.stream(iterable.spliterator(), false)
-                .skip(page*count)
-                .limit(count)
-                .collect(Collectors.toList());
-    }
-
-    public Game convertDtoToEntity(GameCreateDTO gameDTO) {
+    private Game convertDtoToEntity(GameCreateDTO gameDTO) {
         Game game = new Game();
         game.setSportType(gameDTO.getSportType());
         game.setGamePlace(gameDTO.getGamePlace());
